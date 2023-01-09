@@ -101,23 +101,13 @@ plot <- function(data_bartgeier, titel, filename) {
   
   df_melted$oStartzeit <- format(as.POSIXct(df_melted$Startzeit), "%T")
   
-  # Sonnenazimuth der Zeit berechnen (geht Zeitumstellung etc. aus dem Weg)
-  df_melted$sStartzeit <- sunAngle(df_melted$Startzeit, latitude, longitude)[["time"]]
-  df_melted$sStartzeit <- format(as.POSIXct(df_melted$sStartzeit), "%T")
-  
-  df_melted$aStartzeit <- sunAngle(df_melted$Startzeit, latitude, longitude)[["azimuth"]]
+  # Sonnenazimuth der Zeit berechnen (geht Zeitumstellung etc. aus dem Weg) (erste 3 gerade nicht in Benutzung)
+  df_melted$sunStartzeit <- sunAngle(df_melted$Startzeit, latitude, longitude)[["time"]]
+  df_melted$sunStartzeit <- format(as.POSIXct(df_melted$sStartzeit), "%T")
+  df_melted$azimuthStartzeit <- sunAngle(df_melted$Startzeit, latitude, longitude)[["azimuth"]]
   
   df_melted$solarStartzeit <- sonnenzeit_zu_zeit(getSolarTimeHour(df_melted$Startzeit, longitude))
 
-  
-  
-  #ggplot(df_melted, aes(x = as.POSIXct(oStartzeit, format="%H:%M:%S"), y = variable)) +
-  #  scale_x_datetime(date_labels = "%H:%M:%S")+
-  #  geom_violin(adjust=0.2)+
-  #  #geom_jitter(size=0.1, alpha=0.3)+
-  #  geom_beeswarm(cex = 0.5, size=0.1) +
-  #  theme_minimal()
-  
   plt <- ggplot(df_melted, aes(x = as.POSIXct(solarStartzeit, format="%H:%M:%S"), y = variable, color = as.POSIXct(solarStartzeit, format="%H:%M:%S"))) +
     ggtitle(titel)+
     xlab("Sonnenzeit Berchtesgaden")+
@@ -125,25 +115,12 @@ plot <- function(data_bartgeier, titel, filename) {
     scale_x_datetime(date_labels = "%H:%M", limits = as.POSIXct(c("02:45:00","19:00:00"), format="%H:%M:%S"))+
     geom_violin(adjust = 0.125, scale = "width") +
     geom_beeswarm(cex = 0.8, size=0.7, alpha=1) +
-    #geom_dotplot(dotsize = 0.5, binaxis = "x", stackdir = "center")+
     theme_minimal()+
     theme(legend.position = "none")+
     scale_color_gradient(low = "#0091ff", high = "#f0650e")
-  #geom_beeswarm(size=0.5)
-  
+
   out_file = paste(filename, ".svg", sep="")
   ggsave(out_file, width = 11, height = 8)
-  #ggsave(out_file)
   print(plt)
-  
-  # ggplot(df_melted, aes(x = aStartzeit, y = variable)) +
-  #    geom_violin()+
-  #    geom_sina()+
-  #    theme_minimal()
-  #geom_beeswarm(size=0.5)
-  
-  #ggplot(df_melted, aes(x = oStartzeit, y = variable)) +
-  #  geom_violin()+
-  #  geom_sina() 
   
 }
