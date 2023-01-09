@@ -1,0 +1,15 @@
+```{r}
+
+
+source("bartgeier.R") 
+
+```
+
+
+```{r}
+bartgeier_graph("Monitoringdaten 2022_Dagmar_C  - Kopie.xlsx", "Dagmar", erster_flug="2022-07-02")
+
+```
+```{r}
+bartgeier_graph("Monitoringdaten 2022_Recka_C - Kopie.xlsx", "Recka", erster_flug="2022-07-10")
+```
