@@ -103,7 +103,7 @@ plot <- function(data_bartgeier, titel, filename) {
   
   # Sonnenazimuth der Zeit berechnen (geht Zeitumstellung etc. aus dem Weg) (erste 3 gerade nicht in Benutzung)
   df_melted$sunStartzeit <- sunAngle(df_melted$Startzeit, latitude, longitude)[["time"]]
-  df_melted$sunStartzeit <- format(as.POSIXct(df_melted$sStartzeit), "%T")
+  df_melted$sunStartzeit <- format(as.POSIXct(df_melted$sunStartzeit), "%T")
   df_melted$azimuthStartzeit <- sunAngle(df_melted$Startzeit, latitude, longitude)[["azimuth"]]
   
   df_melted$solarStartzeit <- sonnenzeit_zu_zeit(getSolarTimeHour(df_melted$Startzeit, longitude))
